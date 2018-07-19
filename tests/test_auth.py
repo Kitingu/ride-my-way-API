@@ -102,15 +102,15 @@ class TestAuth(unittest.TestCase):
         self.assertEqual(reset.status_code, 201)
         self.assertIn(b'Password has been changed to Pass123', reset.data)
 
-    def test_request_a_ride(self):
-        '''test user can request a ride'''
-        result = self.app.post('/api/v1/auth/register', data=self.user_data)
-        self.assertEqual(result.status_code, 201)
-        login = self.app.post('/api/v1/auth/login', data=json.dumps({
-            'email': 'test@testmail.com',
-            'password': 'testpass2'
-        }))
-        self.assertEqual(login.status_code, 200)
+    # def test_request_a_ride(self):
+    #     '''test user can request a ride'''
+    #     result = self.app.post('/api/v1/auth/register', data=self.user_data)
+    #     self.assertEqual(result.status_code, 201)
+    #     login = self.app.post('/api/v1/auth/login', data=json.dumps({
+    #         'email': 'test@testmail.com',
+    #         'password': 'testpass2'
+    #     }))
+    #     self.assertEqual(login.status_code, 200)
         # login_msg = json.loads(login.data)
         # access_token = login_msg['access_token']
         # result = self.app.post(
