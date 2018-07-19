@@ -1,5 +1,17 @@
-[![Coverage Status](https://coveralls.io/repos/github/benlegendj/Ride-my-way-API/badge.svg?branch=master)](https://coveralls.io/github/benlegendj/Ride-my-way-API?branch=master)
-<a href="https://codeclimate.com/github/benlegendj/Ride-my-way-API/test_coverage"><img src="https://api.codeclimate.com/v1/badges/46d4b9de22aa646c675f/test_coverage" /></a>
+
+[![Build Status](https://travis-ci.org/Kitingu/ride-my-way-API.svg?branch=ft-version1)](https://travis-ci.org/Kitingu/ride-my-way-API)
+<a href="http://flask.pocoo.org/"><img
+   src="http://flask.pocoo.org/static/badges/made-with-flask-s.png"
+   border="0"
+   alt="made with Flask"
+   title="made with Flask"></a>
+
+![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)
+
+
+
+c87ceb1561134b01a4c3c48c198c6d19
+
 Project Overview
 Ride-my App is a carpooling application that provides drivers with the ability to create ride offers
 and passengers to join available ride offers.
