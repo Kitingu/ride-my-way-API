@@ -102,28 +102,7 @@ class TestAuth(unittest.TestCase):
         self.assertEqual(reset.status_code, 201)
         self.assertIn(b'Password has been changed to Pass123', reset.data)
 
-    # def test_request_a_ride(self):
-    #     '''test user can request a ride'''
-    #     result = self.app.post('/api/v1/auth/register', data=self.user_data)
-    #     self.assertEqual(result.status_code, 201)
-    #     login = self.app.post('/api/v1/auth/login', data=json.dumps({
-    #         'email': 'test@testmail.com',
-    #         'password': 'testpass2'
-    #     }))
-    #     self.assertEqual(login.status_code, 200)
-        # login_msg = json.loads(login.data)
-        # access_token = login_msg['access_token']
-        # result = self.app.post(
-        #     '/api/v1/rides', data=json.dumps(self.test_ride))
-        # self.assertEqual(result.status_code, 201)
-        # date = {"date": "02/12/2008"}
-        # borrow = self.app.post(
-        #     '/api/v1/users/rides/1',
-        #     data=json.dumps(date),
-        #     headers={
-        #         'Authorization': 'Bearer {}'.format(access_token)},
-        #     content_type='application/json')
-        # self.assertEqual(borrow.status_code, 201)
+
 
     def tearDown(self):
         pass
