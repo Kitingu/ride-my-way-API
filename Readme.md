@@ -7,11 +7,6 @@
    border="0"
    alt="made with Flask"
    title="made with Flask"></a>
-
-
-
-c87ceb1561134b01a4c3c48c198c6d19
-
 Project Overview
 Ride-my App is a carpooling application that provides drivers with the ability to create ride offers
 and passengers to join available ride offers.
