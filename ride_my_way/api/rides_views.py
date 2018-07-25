@@ -39,6 +39,7 @@ def edit_rides(id):
         else:
             return jsonify(
                 {'message': 'Please enter valid details'})
+
     '''check if destination is entered and if it is correct'''
     if 'destination' in request.json:
         if ride_my_way.add_ride_validation({'destination': request.json['destination']}):
@@ -46,13 +47,22 @@ def edit_rides(id):
         else:
             return jsonify(
                 {'message': 'Please enter a correct destination above 4 characters'})
+
     '''check if date is correctly entered'''
+    if 'time' in request.json:
+        if ride_my_way.time_validate(request.json['time']):
+            ride[0]['time'] = request.json['time']
+        else:
+            return jsonify(
+                {'message': 'Please enter a correct date format HH:MM'})
+
     if 'date' in request.json:
         if ride_my_way.date_validate(request.json['date']):
             ride[0]['date'] = request.json['date']
         else:
             return jsonify(
                 {'message': 'Please enter a correct date format DD-MM-YYYY'})
+
         if ride_my_way.add_ride_validation(ride[0]):
             return jsonify({"ride": ride[0]})
     else:
@@ -71,7 +81,10 @@ def add_ride():
         'time': sent_data.get('time')
 
     }
-    if ride_my_way.add_ride_validation(data):
+    if ride_my_way.add_ride_validation(data) \
+            and ride_my_way.date_validate(data['date']) \
+            and ride_my_way.time_validate(data['time']):
+
         ride_my_way.create_rides(data)
         response = jsonify({
             'ride_id': data['ride_id'],
@@ -81,6 +94,7 @@ def add_ride():
             'time': data['time'],
             'available': True
         })
+
         response.status_code = 201
         return response
     else:
@@ -106,8 +120,8 @@ def request_ride(id):
 
     if len(ride) == 0:
         return jsonify({'message': "Ride Doesnt Exist"}), 404
-    elif ride[0]['available'] == False:
-        return jsonify({'message': "The ride has already been borrowed"})
+    # elif ride[0]['available'] == False:
+    #     return jsonify({'message': "The ride has already been borrowed"})
     else:
         ride[0]['available'] = False
         RideMyWay().request_ride(data)

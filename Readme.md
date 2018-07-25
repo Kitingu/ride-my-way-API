@@ -1,12 +1,12 @@
 
 [![Build Status](https://travis-ci.org/Kitingu/ride-my-way-API.svg?branch=ft-version1)](https://travis-ci.org/Kitingu/ride-my-way-API)
+<a href="https://codeclimate.com/github/Kitingu/ride-my-way-API/maintainability"><img src="https://api.codeclimate.com/v1/badges/0692bae341c278adce5f/maintainability" /></a>
+![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)
 <a href="http://flask.pocoo.org/"><img
    src="http://flask.pocoo.org/static/badges/made-with-flask-s.png"
    border="0"
    alt="made with Flask"
    title="made with Flask"></a>
-
-![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)
 
 
 

@@ -19,7 +19,7 @@ class TestRides(unittest.TestCase):
             'starting_point': 'kiambu',
             'destination': 'nairobi',
             'date': '02/12/2008',
-            'time': '10:00:00'
+            'time': '10:00'
 
         }
 
@@ -28,7 +28,7 @@ class TestRides(unittest.TestCase):
             'starting_point': '',
             'destination': '',
             'date': '02/12/2008',
-            'time': '10:00:00'
+            'time': '10:00'
 
         }
         
@@ -66,17 +66,33 @@ class TestRides(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertIn('nairobi', str(result.data))
 
-    def test_edit_a_ride_blank_ride(self):
-        '''test api can edit a ride (PUT request)'''
+    def test_edit_non_existing_ride(self):
+        '''test api can't edit a non existing ride (PUT request)'''
 
         self.ride_data['starting_point'] = 'Newest starting_point'
-        response = self.app.put(
+        resp = self.app.put(
+            '/api/v1/rides/50000000',
+            data=json.dumps(
+                self.ride_data),
+            content_type='application/json')
+        self.assertEqual(resp.status_code, 404)
+
+
+    def test_edit_a_ride(self):
+        '''test api can edit a ride (PUT request)'''
+        post_result = self.app.post(
+            '/api/v1/rides',
+            data=json.dumps(
+                self.ride_data))
+        self.assertEqual(post_result.status_code, 201)
+        json_result = json.loads(post_result.data.decode())
+        self.ride_data['starting_point'] = 'Newest starting_point'
+        resp = self.app.put(
             '/api/v1/rides/1',
             data=json.dumps(
                 self.ride_data),
             content_type='application/json')
-        self.assertEqual(response.status_code, 404)
-        
+        self.assertEqual(resp.status_code, 200)
 
     def test_delete_a_ride(self):
         '''test api can delete a single ride by id'''
@@ -90,21 +106,21 @@ class TestRides(unittest.TestCase):
 
     def test_rides_cannot_be_blank(self):
         """test api cannot register rides with blank fields"""
-        response = self.app.post('/api/v1/rides',
+        resp = self.app.post('/api/v1/rides',
                                  data=json.dumps(self.empty_ride),
                                  content_type="application/json")
 
-        self.assertIn(b'Please enter correct ride details',response.data)
+        self.assertIn(b'Please enter correct ride details',resp.data)
 
-    def test_non_existent_ride(self):
-        '''test api can get a single ride by its id (GET request)'''
+    def test_get_non_existent_ride(self):
+        '''test api can get a non existing ride by its id (GET request)'''
         post_result = self.app.post(
             '/api/v1/rides',
             data=json.dumps(
                 self.ride_data))
         self.assertEqual(post_result.status_code, 201)
         result = self.app.get(
-            '/api/v1/rides/5')
+            '/api/v1/rides/500')
         self.assertEqual(result.status_code, 404)
 
     def test_delete_a_ride(self):
@@ -115,10 +131,9 @@ class TestRides(unittest.TestCase):
         self.assertIn(b'ride Doesnt Exist', result.data)
 
 
-
-
     def tearDown(self):
-        pass
+        self.ride_data.clear()
+        print(self.ride_data)
 
 
 if __name__ == '__main__':
