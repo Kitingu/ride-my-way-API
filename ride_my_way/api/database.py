@@ -10,9 +10,9 @@ class Database:
     def initialise(cls):
         Database.connection_pool = pool.SimpleConnectionPool(1,
                                                              10,
-                                                             user='postgres',
-                                                             password='bendeh911',
-                                                             database='Ride',
+                                                             user='ben',
+                                                             password='asdf',
+                                                             database='rides',
                                                              host='localhost')
 
     @classmethod
