@@ -7,6 +7,7 @@ from flask_jwt_extended import (
     JWTManager, jwt_required, get_jwt_identity,
     create_access_token, get_raw_jwt
 )
+from ride_my_way.api.Rides import Ride
 
 blacklist = set()
 
@@ -74,18 +75,22 @@ def add_ride():
     '''Function to add a ride'''
     sent_data = request.get_json(force=True)
     data = {
-        'ride_id': len(ride_my_way.rides_list) + 1,
+
         'starting_point': sent_data.get('starting_point'),
         'destination': sent_data.get('destination'),
         'date': sent_data.get('date'),
-        'time': sent_data.get('time')
+        'time': sent_data.get('time'),
+        'available':True,
+        'ride_id': len(Ride.get_all_rides())+1
 
     }
     if ride_my_way.add_ride_validation(data) \
             and ride_my_way.date_validate(data['date']) \
             and ride_my_way.time_validate(data['time']):
 
-        ride_my_way.create_rides(data)
+        ride = Ride(data['starting_point'], data['destination'],
+                    data['date'], data['time'], data['available'],None)
+        ride.create_ride()
         response = jsonify({
             'ride_id': data['ride_id'],
             'starting_point': data['starting_point'],
@@ -138,23 +143,22 @@ def request_ride(id):
 @app.route('/api/v1/rides/<int:id>', methods=['DELETE'])
 def delete_rides(id):
     '''function to delete ride'''
-    ride = [ride for ride in ride_my_way.rides_list if ride['ride_id'] == id]
-    if len(ride) == 0:
-        return jsonify({'message': "ride Doesnt Exist"})
-    ride_my_way.rides_list.remove(ride[0])
-    return jsonify({'message': "ride Was Deleted"})
-
+    ride = Ride.get_ride_by_id(id)
+    if ride:
+        Ride.delete_ride(id)
+        return jsonify({'message': "ride Was Deleted"})
+    return "not found!!!"
 
 @app.route('/api/v1/rides', methods=['GET'])
 def get_all_rides():
     '''function to get all rides'''
-    return ride_my_way.view_rides(), 200
+    return Ride.get_all_rides(), 200
 
 
 @app.route('/api/v1/rides/<int:id>', methods=['GET'])
 def get_by_id(id):
     '''function to get a single ride by its id'''
-    ride = [ride for ride in ride_my_way.rides_list if ride['ride_id'] == id]
+    ride = Ride.get_ride_by_id(id)
     if len(ride) == 0:
         return jsonify({'message': "ride Doesnt Exist"}), 404
-    return jsonify({'ride': ride[0]}), 200
+    return jsonify({'ride': ride}), 200

@@ -8,6 +8,7 @@ from flask_jwt_extended import (
 from werkzeug.security import generate_password_hash, check_password_hash
 from ride_my_way import app, jwt
 from ride_my_way.api.models import RideMyWay
+from instance.database import CursorFromConnectionFromPool,Database
 
 blacklist = set()
 

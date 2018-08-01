@@ -48,10 +48,10 @@ class User:
 
 
 Database.initialize()
-my_user = User('asdf@gmail.com', 'benjo', 'qwerty', 'asdf', None)
-my_user.save_to_db()
+# my_user = User('asdf@gmail.com', 'benjo', 'qwerty', 'asdf', None)
+# my_user.save_to_db()
 # User.delete_from_dbl("asdf@gmail.com")
 my_user = User.load_from_db_by_email("asdf@gmail.com")
-other_user = User.find_by_id(3)
+other_user = User.find_by_id(34)
 print(other_user)
 print(my_user)
