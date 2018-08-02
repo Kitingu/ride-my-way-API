@@ -7,7 +7,7 @@ from cerberus import Validator
 import datetime
 
 
-class RideMyWay(object):
+class Validate(object):
 
     def __init__(self):
         '''creating a list containing dictionaries to act as a database'''

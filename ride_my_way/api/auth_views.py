@@ -7,9 +7,9 @@ from flask_jwt_extended import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 from ride_my_way import app, jwt
-from ride_my_way.api.models import RideMyWay
+from ride_my_way.api.models import Validate
 from instance.database import CursorFromConnectionFromPool,Database
-
+from ride_my_way.api.user import User
 blacklist = set()
 
 @jwt.token_in_blacklist_loader
@@ -19,7 +19,7 @@ def check_if_token_in_blacklist(decrypted_token):
     return jti in blacklist
 
 auth = Blueprint('auth', __name__)
-ride_my_way = RideMyWay()
+ride_my_way = Validate()
 
 
 @app.route('/api/v1/auth/reset-password', methods=['POST'])
@@ -105,5 +105,5 @@ def change_password():
 @jwt_required
 def view_users():
     '''Function for viewing all users'''
-    return ride_my_way.view_users(), 200
+    return User.get_all_users(), 200
 

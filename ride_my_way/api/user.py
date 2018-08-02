@@ -40,18 +40,24 @@ class User:
                            last_name=user_data[2], password=user_data[3],
                            _id=user_data[4])
             return "user not found"
-
+    @classmethod
+    def get_all_users(cls):
+        with CursorFromConnectionFromPool as cursor:
+            cursor.execute("SELECT * FROM users")
     @classmethod  # this is the currently bound class
     def delete_from_dbl(cls, email):
         with CursorFromConnectionFromPool() as cursor:
             cursor.execute("DELETE from users where email=%s", (email,))
 
-
+    @classmethod
+    def change_password(cls,user_id,new_pass):
+        with CursorFromConnectionFromPool() as cursor:
+            cursor.execute("UPDATE users SET password= %s WHERE id=%s"(user_id,new_pass))
 Database.initialize()
 # my_user = User('asdf@gmail.com', 'benjo', 'qwerty', 'asdf', None)
 # my_user.save_to_db()
 # User.delete_from_dbl("asdf@gmail.com")
-my_user = User.load_from_db_by_email("asdf@gmail.com")
-other_user = User.find_by_id(34)
-print(other_user)
-print(my_user)
+# my_user = User.load_from_db_by_email("asdf@gmail.com")
+# other_user = User.find_by_id(34)
+# print(other_user)
+# print(my_user)

@@ -2,7 +2,7 @@
 import datetime
 from flask import jsonify, Blueprint, request, make_response, session
 from ride_my_way import app
-from ride_my_way.api.models import RideMyWay
+from ride_my_way.api.models import Validate
 from flask_jwt_extended import (
     JWTManager, jwt_required, get_jwt_identity,
     create_access_token, get_raw_jwt
@@ -22,7 +22,7 @@ def check_if_token_in_blacklist(decrypted_token):
 
 
 rides = Blueprint('rides', __name__)
-ride_my_way = RideMyWay()
+ride_my_way = Validate()
 
 
 @app.route('/api/v1/rides/<int:id>', methods=['PUT'])
@@ -129,7 +129,7 @@ def request_ride(id):
     #     return jsonify({'message': "The ride has already been borrowed"})
     else:
         ride[0]['available'] = False
-        RideMyWay().request_ride(data)
+        Validate().request_ride(data)
         response = jsonify({
             'ride_id': data['ride_id'],
             'user': data['user_email'],
@@ -144,10 +144,10 @@ def request_ride(id):
 def delete_rides(id):
     '''function to delete ride'''
     ride = Ride.get_ride_by_id(id)
-    if ride:
+    if ride[4] == id:
         Ride.delete_ride(id)
-        return jsonify({'message': "ride Was Deleted"})
-    return "not found!!!"
+        return "Ride deleted successfully"
+    return "Ride Doesn't exist"
 
 @app.route('/api/v1/rides', methods=['GET'])
 def get_all_rides():
